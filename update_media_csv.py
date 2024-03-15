@@ -19,7 +19,9 @@ def authenticate_cortex():
 
 def fetch_iiif_values(df, token, json_suffix):
     iiif_column = 'IIIF Value'
+    media_encrypted_column = 'Identifier'
     df[iiif_column] = None
+    df[media_encrypted_column] = None
 
     for value in df['Unique identifier']:
         api_url = f'https://collections.newberry.org/API/search/v3.0/search?query=SystemIdentifier:{value}&fields=MediaEncryptedIdentifier{token}{json_suffix}'
@@ -30,6 +32,7 @@ def fetch_iiif_values(df, token, json_suffix):
             if "APIResponse" in data and "Items" in data["APIResponse"] and data["APIResponse"]["Items"]:
                 media_encrypted_identifier = data['APIResponse']['Items'][0]['MediaEncryptedIdentifier']
                 df.loc[df['Unique identifier'] == value, iiif_column] = f'https://collections.newberry.org/IIIF3/Image/{media_encrypted_identifier}/info.json'
+                df.loc[df['Unique identifier'] == value, media_encrypted_column] = media_encrypted_identifier
 
 
 def extract_title(df):
