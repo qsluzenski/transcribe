@@ -19,7 +19,7 @@ def authenticate_cortex():
 
 def fetch_iiif_values(df, token, json_suffix):
     iiif_column = 'IIIF Value'
-    media_encrypted_column = 'Identifier'
+    media_encrypted_column = 'Source'
     df[iiif_column] = None
     df[media_encrypted_column] = None
 
